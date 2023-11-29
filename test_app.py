@@ -1,5 +1,4 @@
 from unittest import TestCase
-from boggle import BoggleGame
 
 from app import app, games
 
@@ -50,13 +49,16 @@ class BoggleAppTestCase(TestCase):
 
     def test_api_score_word(self):
         """ Test whether score word function checks for word in dictionary,
-            presence on board (does not check word length!). """
+            presence on board (does not check word length!).
+            Uses new-game api to set up the game first."""
 
         with app.test_client() as client:
-            game_id = '788e0466-68ab-4f0d-80de-361eac24e935'
 
-            game = BoggleGame()
-            games[game_id] = game
+            get_game_response = client.post('/api/new-game')
+            get_game_response_json = get_game_response.get_json()
+
+            game_id = get_game_response_json['game_id']
+            game = games[game_id]
 
             game.board = [
                 ['C','A','T','C','A'],
