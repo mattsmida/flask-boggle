@@ -26,6 +26,7 @@ class BoggleAppTestCase(TestCase):
             ...
             # test that you're getting a template
             self.assertIn('<title>Boggle</title>', html)
+            #could also look for test-specific comment in html
 
     def test_api_new_game(self):
         """Test starting a new game."""
