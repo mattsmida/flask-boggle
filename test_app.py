@@ -35,6 +35,14 @@ class BoggleAppTestCase(TestCase):
             response = client.post('/api/new-game')
             response_json = response.get_json()
 
-            self.assertIn("gameId", response_json)
+            #make sure json has right keys
+            self.assertIn("game_id", response_json)
+            self.assertIn("board", response_json)
+
+            #make sure values are right types
+            self.assertIsInstance(response_json['game_id'], str)
             self.assertIsInstance(response_json['board'], list)
             self.assertIsInstance(response_json['board'][0], list)
+
+            #make sure games is populated with the game we got back
+            self.assertTrue(games[response_json['game_id']])
