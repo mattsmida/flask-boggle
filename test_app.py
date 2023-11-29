@@ -45,7 +45,7 @@ class BoggleAppTestCase(TestCase):
             self.assertIsInstance(response_json['board'][0], list)
 
             #make sure games is populated with the game we got back
-            self.assertTrue(games[response_json['game_id']])
+            self.assertTrue(games[response_json['game_id']]) #assertIn
 
     def test_api_score_word(self):
         """ Test whether score word function checks for word in dictionary,
@@ -55,9 +55,9 @@ class BoggleAppTestCase(TestCase):
         with app.test_client() as client:
 
             get_game_response = client.post('/api/new-game')
-            get_game_response_json = get_game_response.get_json()
+            get_game_response_dict = get_game_response.get_json()
 
-            game_id = get_game_response_json['game_id']
+            game_id = get_game_response_dict['game_id']
             game = games[game_id]
 
             game.board = [
@@ -73,21 +73,21 @@ class BoggleAppTestCase(TestCase):
             json_FISH = { 'game_id': game_id, 'word': 'FISH' }
             json_AAAAA = { 'game_id': game_id, 'word': 'AAAAA' }
 
-            response_cat = client.post('/api/score-word', json = json_cat)
-            response_cat_json = response_cat.get_json()
-            self.assertEqual(response_cat_json['result'], 'not-word')
+            response_cat = client.post('/api/score-word', json=json_cat)
+            response_cat_dict = response_cat.get_json()
+            self.assertEqual(response_cat_dict['result'], 'not-word')
 
-            response_CAT = client.post('/api/score-word', json = json_CAT)
-            response_CAT_json = response_CAT.get_json()
-            self.assertEqual(response_CAT_json['result'], 'ok')
+            response_CAT = client.post('/api/score-word', json=json_CAT)
+            response_CAT_dict = response_CAT.get_json()
+            self.assertEqual(response_CAT_dict['result'], 'ok')
 
-            response_FISH = client.post('/api/score-word', json = json_FISH)
-            response_FISH_json = response_FISH.get_json()
-            self.assertEqual(response_FISH_json['result'], 'not-on-board')
+            response_FISH = client.post('/api/score-word', json=json_FISH)
+            response_FISH_dict = response_FISH.get_json()
+            self.assertEqual(response_FISH_dict['result'], 'not-on-board')
 
-            response_AAAAA = client.post('/api/score-word', json = json_AAAAA)
-            response_AAAAA_json = response_AAAAA.get_json()
-            self.assertEqual(response_AAAAA_json['result'], 'not-word')
+            response_AAAAA = client.post('/api/score-word', json=json_AAAAA)
+            response_AAAAA_dict = response_AAAAA.get_json()
+            self.assertEqual(response_AAAAA_dict['result'], 'not-word')
 
 
 

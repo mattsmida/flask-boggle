@@ -31,7 +31,7 @@ def new_game():
 
 
 @app.post("/api/score-word")
-def get_word_legality():
+def score_word():
     """Checks if word is legal and returns JSON: {result}
     Three cases for result: not-word, not-on-board, ok.
     Input JSON format: { game_id, word }."""
